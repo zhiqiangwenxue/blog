@@ -42,6 +42,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private CommentMapper commentMapper;
+
     @Override
     @Cacheable(key = "targetClass + methodName + #p0.current +#p0.size + #p1")
     public IPage<Comment> findPageByArticleId(Page<Comment> page, Long articleId) {
@@ -149,6 +152,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         queryWrapper.eq("article_id", articleId);
         List<Comment> commentList = baseMapper.selectList(queryWrapper);
         return commentList;
+    }
+
+
+    @Override
+    public List<Comment> getCommentByParentId(Long parentId) {
+        return commentMapper.getCommentByParentId(parentId);
     }
 
 }

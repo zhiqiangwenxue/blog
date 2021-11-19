@@ -22,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 评论管理
@@ -51,7 +48,7 @@ public class ApiCommentController {
             queryWrapper.like("content", content);
         }
         if (Objects.isNull(comment.getIsDelete())) {
-            queryWrapper.ne("is_delete", DeleteEnum.NOTDELETE.getValue());
+            queryWrapper.eq("is_delete", DeleteEnum.NOTDELETE.getValue());
         }
         IPage<Comment> commentPage = commentService.findCommentsByPage(page, queryWrapper);
         return Result.success(commentPage);
@@ -99,16 +96,28 @@ public class ApiCommentController {
 
     @PutMapping
     public Result update(@RequestBody Comment comment) {
+        Boolean res = false;
+        Comment commen = new Comment();
         if (Objects.isNull(comment.getId())) {
             return Result.fail(CodeEnum.VALIDATION_ERROR.getValue(), "评论ID不能为空");
         }
-        Comment comments = commentService.getById(comment.getId());
-        comments.setIsDelete(DeleteEnum.DELETE.getValue());
-        BeanUtils.copyProperties(comments, comment);
-        boolean res = commentService.updateById(comment);
+        Comment com = commentService.getById(comment);
+        List<Comment> comments = commentService.getCommentByParentId(comment.getId());
+        if (comments.size() > 0) {
+            for (Comment comme : comments) {
+                comme.setIsDelete(comme.getIsDelete() == 0 ? 1 : 0);
+                commentService.updateById(comme);
+            }
+            com.setIsDelete(com.getIsDelete() == 0 ? 1 : 0);
+            res = commentService.updateById(com);
+        } else {
+            com.setIsDelete(com.getIsDelete() == 0 ? 1 : 0);
+            res = commentService.updateById(com);
+        }
         commentService.clearCache();
         return res ? Result.success() : Result.fail("删除失败");
     }
+
 
     /**
      * 审核

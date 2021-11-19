@@ -68,4 +68,7 @@ public interface CommentService extends IService<Comment> {
 
 
     List<Comment> findLatestComments(Long articleId);
+
+
+    List<Comment> getCommentByParentId(Long parentId);
 }
