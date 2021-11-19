@@ -1,0 +1,88 @@
+server:
+  port: 8088
+spring:
+  mvc:
+    favicon:
+      enabled: false
+  profiles:
+    active: dev
+  http:
+    converters:
+      preferred-json-mapper: gson
+  servlet:
+    multipart:
+      max-file-size: 10MB
+  # 配置缓存,初始缓存容量,最大容量,过期时间
+  cache:
+    type: caffeine
+    caffeine:
+      spec: initialCapacity=10,maximumSize=1000,expireAfterAccess=1h
+  datasource:
+    separator: $$
+    # hikari配置
+    hikari:
+      auto-commit: true
+      connection-timeout: 10000
+      idle-timeout: 300000
+      max-lifetime: 600000
+      minimum-idle: 5
+      maximum-pool-size: 20
+  mail:
+    host: smtp.exmail.qq.com
+    username: yangzhiqiang@iszhiqiang.top
+    password: Zhiqiang9267
+    default-encoding: UTF-8
+    protocol: smtp
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+          starttls:
+            enable: true
+            required: true
+  # flyway配置
+  flyway:
+    # 启用或禁用 flyway
+    enabled: true
+    # SQL 脚本的目录,多个路径使用逗号分隔 默认值 classpath:db/migration
+    locations: classpath:db/migration
+    #是否允许不按顺序迁移
+    out-of-order: false
+    # 执行迁移时是否自动调用验证
+    validate-on-migrate: true
+    # 迁移脚本的文件分隔名 默认__
+    sql-migration-separator: __
+    # 当迁移时发现目标schema非空，而且带有没有元数据的表时，是否自动执行基准迁移，默认false.
+    baseline-on-migrate: true
+# mybatis-plus 配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.iszhouhua.blog.model
+  type-enums-package: com.iszhouhua.blog.model.enums
+  global-config:
+    # 数据库相关配置
+    db-config:
+      # 数据库表前缀
+      table-prefix: blog_
+      #主键类型
+      id-type: auto
+      #数据库类型
+      db-type: mysql
+    banner: false
+oauth:
+  gitee:
+    client-id: bebf8702314be6568f83db3fa1c1c9d14228425f78869b5b33be8194fa50dfdf
+    client-secret: 3c76337f3362686f992b13fe4988be82fa580fdafa15a87358589b1388f61d5e
+    redirect-uri: http://127.0.0.1:8080/oauth/callback/gitee
+    scopes: user_info,emails
+  github:
+    client-id: ed4b57b1ca2bc1cce6de
+    client-secret: 95265494e0bb51389e9db438c85053d1f8c2e918
+    redirect-uri: http://127.0.0.1:8080/oauth/callback/github
+    scopes: user

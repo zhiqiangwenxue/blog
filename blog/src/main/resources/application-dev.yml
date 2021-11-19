@@ -1,0 +1,24 @@
+spring:
+  thymeleaf:
+    cache: false
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3307/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=true&autoReconnect=true
+#    url: jdbc:mysql://180.76.146.72:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=true&autoReconnect=true
+    username: root
+    password: yzq123
+  mail:
+    host: smtp.exmail.qq.com
+    username: yangzhiqiang@iszhiqiang.top
+    password: Zhiqiang9267
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# log 配置
+logging:
+  file: logs/blog.log
+  level:
+    com:
+      iszhouhua:
+        blog: debug
