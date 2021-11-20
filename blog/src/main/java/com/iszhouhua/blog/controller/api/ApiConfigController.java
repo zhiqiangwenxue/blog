@@ -75,7 +75,7 @@ public class ApiConfigController {
     @DeleteMapping
     public Result remove(Long id) {
         Config config = configService.getById(id);
-        config.setIsDelete(config.getIsDelete() == 0 ? 1 : 0);
+        config.setIsDelete(DeleteEnum.DELETE.getValue());
         boolean result = configService.updateById(config);
         if (result) {
             configService.clearCache();

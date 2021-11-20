@@ -70,7 +70,7 @@ public class ApiSpiderController {
     @DeleteMapping
     public Result remove(Long id) {
         Spider spider = spiderService.getById(id);
-        spider.setIsDelete(spider.getIsDelete() == 0 ? 1 : 0);
+        spider.setIsDelete(DeleteEnum.DELETE.getValue());
         return spiderService.updateById(spider) ? Result.success() : Result.fail("删除失败");
     }
 

@@ -58,7 +58,7 @@ public class ApiMenuController {
     @DeleteMapping
     public Result remove(Long id) {
         Menu menu = menuService.getById(id);
-        menu.setIsDelete(menu.getIsDelete() == 0 ? 1 : 0);
+        menu.setIsDelete(DeleteEnum.DELETE.getValue());
         return menuService.updateById(menu) ? Result.success() : Result.fail("删除失败");
     }
 }

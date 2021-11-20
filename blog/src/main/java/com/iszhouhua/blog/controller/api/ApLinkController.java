@@ -60,7 +60,7 @@ public class ApLinkController {
     @DeleteMapping
     public Result remove(Long id) {
         Link link = linkService.getById(id);
-        link.setIsDelete(link.getIsDelete() == 0 ? 1 : 0);
+        link.setIsDelete(DeleteEnum.DELETE.getValue());
         boolean res = linkService.updateById(link);
         linkService.clearCache();
         return res ? Result.success() : Result.fail("删除失败");

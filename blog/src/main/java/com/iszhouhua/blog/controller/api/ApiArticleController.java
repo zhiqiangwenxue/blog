@@ -57,7 +57,7 @@ public class ApiArticleController {
         if (article.getStatus() == null) {
             queryWrapper.in("status", ArticleStatusEnum.DRAFT.getValue(), ArticleStatusEnum.PUBLISHED.getValue());
         }
-        queryWrapper.eq("is_delete", 0);
+        queryWrapper.eq("is_delete", DeleteEnum.NOTDELETE.getValue());
         if (StringUtils.isNotBlank(title)) {
             queryWrapper.like(true, "title", title);
         }
@@ -123,15 +123,33 @@ public class ApiArticleController {
         List<Comment> commentList = new ArrayList<>();
         List<Comment> comments = new ArrayList<>();
         boolean res = false;
-        for (int i = 0; i < ids.length; i++) {
-            article = articleService.getById(ids[i]);
-            commentList = commentService.findLatestComments(article.getId());
-            article.setIsDelete(article.getIsDelete() == 0 ? 1 : 0);
-            res = articleService.updateById(article);
-        }
+        if (ids.length > 1) {
+            for (int i = 0; i < ids.length; i++) {
+                article = articleService.getById(ids[i]);
+                commentList = commentService.findLatestComments(article.getId());
+                for (Comment comment : commentList) {
+                    if (comment.getParentId() == null) {
+                        comment.setIsDelete(DeleteEnum.DELETE.getValue());
+                        commentService.updateById(comment);
+                    } else {
+                        getList(commentList, commentList.get(i).getId());
+                    }
+                }
+                article.setIsDelete(DeleteEnum.DELETE.getValue());
+                res = articleService.updateById(article);
+            }
+        } else {
+            for (int i = 0; i < ids.length; i++) {
+                article = articleService.getById(ids[i]);
+                commentList = commentService.findLatestComments(article.getId());
+                article.setIsDelete(DeleteEnum.DELETE.getValue());
+                res = articleService.updateById(article);
+            }
 
-        for (int i = 0; i < commentList.size(); i++) {
-            getList(commentList, commentList.get(i).getId());
+
+            for (int i = 0; i < commentList.size(); i++) {
+                getList(commentList, commentList.get(i).getId());
+            }
         }
 
         articleService.clearCache();
@@ -145,13 +163,13 @@ public class ApiArticleController {
         for (Comment comment : list) {
             if (id != null && id != 0) {
                 if (comment.getParentId() == null) {
-                    comment.setIsDelete(comment.getIsDelete() == 0 ? 1 : 0);
+                    comment.setIsDelete(DeleteEnum.DELETE.getValue());
                     ok = commentService.updateById(comment);
                 }
                 if (comment.getParentId() == id) {
                     commentList.add(comment);
                     if (comment.getIsDelete() != 1) {
-                        comment.setIsDelete(comment.getIsDelete() == 0 ? 1 : 0);
+                        comment.setIsDelete(DeleteEnum.DELETE.getValue());
                         ok = commentService.updateById(comment);
                     }
 

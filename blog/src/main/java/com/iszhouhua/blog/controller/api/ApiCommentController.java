@@ -105,13 +105,13 @@ public class ApiCommentController {
         List<Comment> comments = commentService.getCommentByParentId(comment.getId());
         if (comments.size() > 0) {
             for (Comment comme : comments) {
-                comme.setIsDelete(comme.getIsDelete() == 0 ? 1 : 0);
+                comme.setIsDelete(DeleteEnum.DELETE.getValue());
                 commentService.updateById(comme);
             }
-            com.setIsDelete(com.getIsDelete() == 0 ? 1 : 0);
+            com.setIsDelete(DeleteEnum.DELETE.getValue());
             res = commentService.updateById(com);
         } else {
-            com.setIsDelete(com.getIsDelete() == 0 ? 1 : 0);
+            com.setIsDelete(DeleteEnum.DELETE.getValue());
             res = commentService.updateById(com);
         }
         commentService.clearCache();

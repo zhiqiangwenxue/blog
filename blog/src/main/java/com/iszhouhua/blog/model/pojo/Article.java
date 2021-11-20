@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @since 2018-12-01
  */
 @Data
-public class    Article implements Serializable {
+public class Article implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -67,7 +67,7 @@ public class ApiTagController {
     @DeleteMapping
     public Result remove(Long id) {
         Tag tag = tagService.getById(id);
-        tag.setIsDelete(tag.getIsDelete() == 1 ? 0 : 1);
+        tag.setIsDelete(DeleteEnum.DELETE.getValue());
         boolean res = tagService.updateById(tag);
         tagService.clearCache();
         return res ? Result.success() : Result.fail("删除失败");

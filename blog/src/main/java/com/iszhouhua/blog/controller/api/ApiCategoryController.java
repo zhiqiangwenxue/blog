@@ -65,7 +65,7 @@ public class ApiCategoryController {
     @DeleteMapping
     public Result remove(Long id) {
         Category category = categoryService.getById(id);
-        category.setIsDelete(category.getIsDelete() == 0 ? 1 : 0);
+        category.setIsDelete(DeleteEnum.DELETE.getValue());
         return categoryService.updateById(category) ? Result.success() : Result.fail("删除失败");
     }
 }
