@@ -1,27 +1,23 @@
 spring:
   thymeleaf:
-    cache: true
+    cache: false
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=true&autoReconnect=true
     username: root
     password: yzq123
-  servlet:
-    multipart:
-      location: /tmp/tomcat
   mail:
     host: smtp.exmail.qq.com
     username: yangzhiqiang@iszhiqiang.top
     password: Zhiqiang9267
-  # flyway配置
-  flyway:
-    # 禁止清理数据表
-    clean-disabled: true
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # log 配置
 logging:
   file: logs/blog.log
   level:
     com:
       iszhouhua:
-        blog: info
+        blog: debug
