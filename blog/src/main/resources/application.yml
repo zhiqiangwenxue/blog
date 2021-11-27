@@ -5,7 +5,7 @@ spring:
     favicon:
       enabled: false
   profiles:
-    active: dev
+    active: prod
   http:
     converters:
       preferred-json-mapper: gson
@@ -28,9 +28,9 @@ spring:
       minimum-idle: 5
       maximum-pool-size: 20
   mail:
-    host: smtp.exmail.qq.com
-    username: yangzhiqiang@iszhiqiang.top
-    password: Zhiqiang9267
+    host: smtp.iszhiqiang.top
+    username: test@iszhiqiang.top
+    password: Zh123456
     default-encoding: UTF-8
     protocol: smtp
     port: 465

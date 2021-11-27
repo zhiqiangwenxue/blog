@@ -27,6 +27,6 @@ public interface TagMapper extends BaseMapper<Tag> {
      * @param count 查询的数量
      * @return
      */
-    @Select("SELECT DISTINCT t1.* FROM blog_tag AS t1 LEFT JOIN blog_article_tag AS t2 ON t1.id = t2.tag_id LEFT JOIN blog_article AS t3 ON t2.article_id=t3.id where t1.is_delete = 0  ORDER BY t3.visits DESC LIMIT #{count}")
+    @Select("SELECT  t1.* FROM blog_tag AS t1 LEFT JOIN blog_article_tag AS t2 ON t1.id = t2.tag_id LEFT JOIN blog_article AS t3 ON t2.article_id=t3.id where t1.is_delete = 0 GROUP BY t1.id ORDER BY t3.visits DESC LIMIT #{count}")
     List<Tag> selectHotTags(Integer count);
 }
