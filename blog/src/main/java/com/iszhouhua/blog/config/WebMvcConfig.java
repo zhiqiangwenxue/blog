@@ -41,6 +41,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/register",
                         "/api/sendCode",
                         "/oauth/**",
+                        "/api/captchaImage",
                         "/api/resetPassword"
                 );
         //前台登录拦截器
@@ -78,13 +79,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
     private ConfigService configService;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         StorageConfig config = configService.getConfigObject(ConfigConst.FILE_STORAGE, StorageConfig.class);
-        if(config.getType()== StorageType.LOCAL){
-            String resourceHandler = "/"+config.getLocalPrefix()+"/**";
-            String resourceLocations = "file:"+config.getLocalDirectory()+"/"+config.getLocalPrefix()+"/";
-            registry.addResourceHandler(resourceHandler.replace("//","/")).addResourceLocations(resourceLocations.replace("//","/"));
+        if (config.getType() == StorageType.LOCAL) {
+            String resourceHandler = "/" + config.getLocalPrefix() + "/**";
+            String resourceLocations = "file:" + config.getLocalDirectory() + "/" + config.getLocalPrefix() + "/";
+            registry.addResourceHandler(resourceHandler.replace("//", "/")).addResourceLocations(resourceLocations.replace("//", "/"));
         }
     }
 }

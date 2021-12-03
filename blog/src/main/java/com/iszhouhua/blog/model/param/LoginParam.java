@@ -23,4 +23,5 @@ public class LoginParam {
     @NotBlank(message = "密码不能为空")
     @Length(min = 6, message = "密码不能小于6位")
     private String password;
+
 }

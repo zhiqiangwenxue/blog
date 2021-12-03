@@ -59,6 +59,7 @@ public class ApiController {
      */
     @PostMapping(value = "login")
     public Result login(@RequestBody LoginParam param, HttpSession session) {
+
         if (StringUtils.isBlank(param.getUsername())) {
             return Result.fail("用户名或邮箱不能为空");
         }
